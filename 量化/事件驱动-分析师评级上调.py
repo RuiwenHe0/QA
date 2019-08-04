@@ -2,10 +2,11 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import cx_Oracle
-from WindPy import *
+# from WindPy import *
 from datetime import *
 
-plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
+plt.rcParams['font.sans-serif'] = ['Arial Unicode MS'] #MacOS
+# plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
 plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
 
 def get_grade(): #获取评级
@@ -128,8 +129,9 @@ def get_graph_info(year,option): #获取每股对应后80天股价信息
         dataframe.to_csv('分析师评级上调/累计收益/平均累计收益{0}.csv'.format(year), encoding='utf_8_sig')
 
 def get_cum_return(year): #获取超额累积
-    df = pd.read_csv('hq/中证500收盘价/中证500日收盘价2009-2019.csv', index_col=0, header='infer')
+    df = pd.read_csv('hq/中证500收盘价/中证500日收盘价2009到现在.csv', header='infer')
     df2 = pd.read_csv('分析师评级上调/累计收益/平均累计收益{0}.csv'.format(year))
+    df['日期'] = pd.to_datetime(df['日期'])
     unique_date = [df2.iloc[i, 0][2:12] for i in range(len(df2.iloc[:, 0]))]
     unique_code = [df2.iloc[i, 0][15:-1] for i in range(len(df2.iloc[:, 0]))]
     unique_date.pop()
@@ -221,7 +223,7 @@ def ten_year_graph(option): #画十年图
 #     get_cum_return(i)
 #     process_info(i,'超额胜率')
 #     process_info(i,'超额盈亏比')
-
+#
 plt.figure(figsize=(20,20), dpi=80)
 plt.figure(1)
 plt.subplot(231)

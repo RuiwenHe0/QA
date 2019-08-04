@@ -2,9 +2,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import cx_Oracle
+import os
 import pandas as pd
 
-plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
+plt.rcParams['font.sans-serif'] = ['Arial Unicode MS'] #MacOS
+# plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
 plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
 
 
@@ -120,8 +122,9 @@ def get_graph_info(year,option): #获取每股对应后80天股价信息
 
 
 def get_cum_return(year): #获取超额累积
-    df = pd.read_csv('hq/中证500收盘价/中证500日收盘价2009-2019.csv', index_col=0, header='infer')
+    df = pd.read_csv('hq/中证500收盘价/中证500日收盘价2009到现在.csv', header='infer')
     df2 = pd.read_csv('高管增持/累计收益/平均累计收益{0}.csv'.format(year))
+    df['日期']=pd.to_datetime(df['日期'])
     unique_date = [df2.iloc[i, 0][2:12] for i in range(len(df2.iloc[:, 0]))]
     unique_code = [df2.iloc[i, 0][15:-1] for i in range(len(df2.iloc[:, 0]))]
     unique_date.pop()
